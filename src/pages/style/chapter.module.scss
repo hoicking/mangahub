@@ -1,0 +1,88 @@
+.main {
+  display: flex;
+
+  padding: 20px;
+}
+
+
+
+@media (min-width: 769px) {
+  .main {
+
+    flex-wrap: wrap;
+  }
+
+  .cover {
+    margin-right: 10px;
+    text-align: center;
+
+    cursor: pointer;
+
+    &__img  {
+      width: 200px;
+      height: 300px;
+      border-radius: 8px;
+      transition: padding 0.3s, border 0.3s, border-radius 0.3s ease-in-out; /* 添加过渡效果 */
+
+
+      &:hover  {
+        padding: 8px;
+        border: 1px solid $primary-color;
+        border-radius: 4px;
+      }
+    }
+
+    &__title {
+      width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &:last-child {
+      margin-right: 0;
+
+    }
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    height: 100%;
+    overflow-y: auto;
+    flex-direction: column;
+    align-items: center;
+
+  }
+
+  .cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__img  {
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    &__title {
+      text-align: center;
+      margin-top: 10px;
+      width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+
+
+
+}

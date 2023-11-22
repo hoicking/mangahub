@@ -3,13 +3,6 @@ import React from 'react'
 
 // 计算组件渲染时间 example
 
-function Helloworld () {
-
-
-    return <div>hello world</div>
-
-}
-
 
 function timeHoc (wrappedComponent: React.ComponentClass<any>) : React.ComponentClass<any> {
     let [start, end] = [0, 0]
