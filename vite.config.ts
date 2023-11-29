@@ -10,7 +10,17 @@ import buildTime from './testplugin'
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    cors: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',    // 接口域名,接口服务器地止
+        changeOrigin: true,
+        rewrite: (path) =>  {
+          return path.replace(/^\/api/, '')
+        }
+      },
+    }
   },
   plugins: [react(),  buildTime()],
   resolve: {

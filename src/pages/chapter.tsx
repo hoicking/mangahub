@@ -7,6 +7,7 @@ import { Chapter } from '../services/model'
 import {getChapters} from '../services/index'
 
 import scss  from './style/chapter.module.scss'
+import { useAppStore } from '../store'
 function Index () {
 
     const {id} =  useParams()
@@ -30,7 +31,9 @@ function Index () {
     }
 
     const goManga = (chapter: Chapter) => {
-        navigate(`${chapter.id}?title=${chapter.title}&num=${chapter.pageNum}`)
+        const strBeforeFilename = chapter.cover.substring(0, chapter.cover.lastIndexOf('/'));
+        // console.log(strBeforeFilename);  // https://holicking.oss-cn-hangzhou.aliyuncs.com/jujutsukaisen/chapters/241
+        navigate(`${chapter.no}?title=${chapter.name}&num=${chapter.totalpage}&baseurl=${strBeforeFilename}`)
     }
 
     return (
@@ -39,7 +42,7 @@ function Index () {
                 chapters.map((item) => (
                     <div className={scss.cover} key={item.id} onClick={() => goManga(item)}>
                         <img className={scss['cover__img']} src={item.cover} />
-                        <div className={scss['cover__title']}>{item.title}</div>
+                        <div className={scss['cover__title']}>{item.name}</div>
                     </div>
                 ))
             }
