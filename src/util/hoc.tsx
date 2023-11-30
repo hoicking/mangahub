@@ -13,7 +13,6 @@ function timeHoc (wrappedComponent: React.ComponentClass) : React.ComponentClass
 
     return class extends wrappedComponent {
 
-        
         constructor (props: Props) {
             super(props)
             start = 0
@@ -27,7 +26,6 @@ function timeHoc (wrappedComponent: React.ComponentClass) : React.ComponentClass
             }
 
             start = new Date().getTime()
-            
         }
 
         componentDidMount(): void {

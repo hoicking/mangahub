@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-import {Params} from './type';
 
 const instance = axios.create({
   baseURL: '/api' // 设置你的 baseURL
 });
 
 // 封装 GET 请求
-export const get = async (url: string, params?: Params) => {
+export const get = async (url: string, params?: {[key: string]: unknown}) => {
   try {
     const response = await instance.get(url, { params });
     return response.data;
@@ -18,7 +17,7 @@ export const get = async (url: string, params?: Params) => {
 };
 
 // 封装 POST 请求
-export const post = async (url: string, data: Params) => {
+export const post = async (url: string, data: unknown) => {
   try {
     const response = await instance.post(url, data);
     return response.data;
@@ -29,7 +28,7 @@ export const post = async (url: string, data: Params) => {
 };
 
 // 封装 PUT 请求
-export const put = async (url: string, data: Params) => {
+export const put = async (url: string, data: unknown) => {
   try {
     const response = await instance.put(url, data);
     return response.data;

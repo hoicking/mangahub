@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import * as api from "../../services";
 
 import scss from './index.module.scss'
-import { IManga } from "../../services/model";
+import { IManga, Manga } from "../../services/model";
 
 type EditorProps = {
   onClose?: () => void,
@@ -15,9 +15,17 @@ type EditorProps = {
   onSaved?: () => void
 }
 
+type Error = {
+  [key in keyof IManga]: {
+    error: boolean,
+    helperText: string
+  }
+}
+
 export interface EditorRef {
   open(): void
 }
+
 
 const darkTheme = createTheme({
   palette: {
@@ -38,7 +46,7 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
     cover: ''
   })
 
-  const [errors, setErrors] = useState<{[key: string]: {error: boolean, helperText: string}}>({
+  const [errors, setErrors] = useState<Error>({
     name: {
       error: false,
       helperText: ''
@@ -83,7 +91,6 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
 
   const handleUpload = () => {
 
-    console.log('----> 上传')
   }
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -104,15 +111,15 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
   }
 
   const validateForm = () => {
-    const result: {[key: string]: {error: boolean, helperText: string}} = {}
-    Object.keys(formData).forEach((key: string) => {
-      if (!formData[key]) {
-        result[key] = {
+    const result: Error = {...errors}
+    Object.keys(formData).forEach((key) => {
+      if (!formData[key as keyof IManga]) {
+        result[key as keyof IManga] = {
           error: true,
           helperText: '不能为空'
         }
       } else {
-        result[key] = {
+        result[key as keyof IManga] = {
           error: false,
           helperText: ''
         }

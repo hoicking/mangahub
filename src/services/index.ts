@@ -8,7 +8,7 @@ export const getMangas = (): Promise<model.Manga[]  | []> => {
   return request.get('mangas')
 }
 
-export const getChapters = (id: string | undefined): Promise<model.Chapter[] | []> => {
+export const getChapters = (id: string): Promise<model.Chapter[] | []> => {
   return request.get(`chapter?id=${id}`)
 }
 

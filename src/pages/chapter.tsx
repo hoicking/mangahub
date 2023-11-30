@@ -10,7 +10,7 @@ import scss  from './style/chapter.module.scss'
 import { useAppStore } from '../store'
 function Index () {
 
-    const {id} =  useParams()
+    const {id} = useParams()
 
     const navigate = useNavigate()
 
@@ -22,7 +22,7 @@ function Index () {
 
     const getDatas = async() => {
         try {
-            const res = await getChapters(id)
+            const res = await getChapters(id || '')
             setChapters(res)
         } catch (error) {
             console.log(error)
