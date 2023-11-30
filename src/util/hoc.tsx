@@ -4,13 +4,17 @@ import React from 'react'
 // 计算组件渲染时间 example
 
 
-function timeHoc (wrappedComponent: React.ComponentClass<any>) : React.ComponentClass<any> {
+interface Props {
+    [key: string]: string | number
+}
+
+function timeHoc (wrappedComponent: React.ComponentClass) : React.ComponentClass {
     let [start, end] = [0, 0]
 
     return class extends wrappedComponent {
 
         
-        constructor (props: any) {
+        constructor (props: Props) {
             super(props)
             start = 0
             end = 0

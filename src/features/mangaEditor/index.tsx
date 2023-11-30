@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useState } from "react"
+import { ChangeEvent, forwardRef, useImperativeHandle, useState } from "react"
 import { SwipeableDrawer } from "@mui/material"
 import {TextField, Button} from "@mui/material"
 
@@ -8,10 +8,15 @@ import * as api from "../../services";
 
 import scss from './index.module.scss'
 import { IManga } from "../../services/model";
+
 type EditorProps = {
   onClose?: () => void,
   onOpen?: () => void,
   onSaved?: () => void
+}
+
+export interface EditorRef {
+  open(): void
 }
 
 const darkTheme = createTheme({
@@ -22,7 +27,7 @@ const darkTheme = createTheme({
 
 export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File>();
   const [fileSrc, setFileSrc] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<IManga>({
@@ -33,7 +38,7 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
     cover: ''
   })
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<{[key: string]: {error: boolean, helperText: string}}>({
     name: {
       error: false,
       helperText: ''
@@ -81,8 +86,8 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
     console.log('----> 上传')
   }
 
-  const handleFileChange = (event: any) => {
-    const file = event.target.files[0]
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
     if (file) {
       setSelectedFile(file)
 
@@ -99,7 +104,7 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
   }
 
   const validateForm = () => {
-    const result: any = {}
+    const result: {[key: string]: {error: boolean, helperText: string}} = {}
     Object.keys(formData).forEach((key: string) => {
       if (!formData[key]) {
         result[key] = {

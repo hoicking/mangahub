@@ -11,14 +11,18 @@ import scss from  './style/home.module.scss'
 import * as model from '../services/model'
 import { useAppStore } from '../store'
 import { isMobileDevice } from '../util/util'
-import { MangaEditor } from '../features/mangaEditor'
+import { EditorRef, MangaEditor } from '../features/mangaEditor'
+
+
 
 
 const Index: React.FC = () => {
-    const editorRef = useRef(null)
+    const editorRef = useRef<EditorRef>(null)
+
 
     const [mangas, setMangas] =  useState<model.Manga[]>([])
-    const [, setCache] = useLocalStorage('cacheDate', Date.now().toString())
+
+    // const [, setCache] = useLocalStorage('cacheDate', Date.now().toString())
     const {isManager} = useAppStore(state => state)
 
     const isPc = !isMobileDevice()
@@ -26,7 +30,6 @@ const Index: React.FC = () => {
     const navigate = useNavigate()
     useEffect(()  => {
         initData()
-
     }, [])
 
     const initData = async () => {

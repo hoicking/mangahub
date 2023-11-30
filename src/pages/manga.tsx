@@ -7,9 +7,9 @@ function Index () {
   const queryParams = new URLSearchParams(location.search)
   
   // 读取特定查询参数的值
-  const pageNum: number = parseInt(queryParams.get('num') || '')
+  const pageNum = parseInt(queryParams.get('num') || '')
   document.title = queryParams.get('title') || ''
-  // const title = queryParams.get('title')
+
   const baseUrl = decodeURIComponent(queryParams.get('baseurl') || '')
 
   return (
