@@ -1,13 +1,14 @@
-import { ChangeEvent, forwardRef, useImperativeHandle, useState } from "react"
+import { ChangeEvent, forwardRef, memo, useImperativeHandle, useState } from "react"
 import { SwipeableDrawer } from "@mui/material"
 import {TextField, Button} from "@mui/material"
 
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import * as api from "../../services";
+import { ThemeProvider } from '@mui/material/styles'
 
+import { darkTheme } from '../../util/mui'
+import * as api from "../../services"
 import scss from './index.module.scss'
-import { IManga, Manga } from "../../services/model";
+import { IManga } from "../../services/model"
 
 type EditorProps = {
   onClose?: () => void,
@@ -27,24 +28,12 @@ export interface EditorRef {
 }
 
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-  },
-})
-
-export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
+const Index = forwardRef((props: EditorProps, ref) => {
 
   const [selectedFile, setSelectedFile] = useState<File>();
-  const [fileSrc, setFileSrc] = useState<string | null>(null);
+  const [fileSrc, setFileSrc] = useState<string>('');
 
-  const [formData, setFormData] = useState<IManga>({
-    name: '',
-    enname: '',
-    author: '',
-    describe: '',
-    cover: ''
-  })
+  const [formData, setFormData] = useState<IManga>({} as IManga)
 
   const [errors, setErrors] = useState<Error>({
     name: {
@@ -89,10 +78,6 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
     onOpen && onOpen()
   }
 
-  const handleUpload = () => {
-
-  }
-
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (file) {
@@ -111,9 +96,11 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
   }
 
   const validateForm = () => {
+    let res = true
     const result: Error = {...errors}
     Object.keys(formData).forEach((key) => {
       if (!formData[key as keyof IManga]) {
+        res = false
         result[key as keyof IManga] = {
           error: true,
           helperText: '不能为空'
@@ -127,6 +114,7 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
     })
 
     setErrors(result)
+    return res
   }
 
   const create = async() => {
@@ -134,7 +122,7 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
       return
     }
 
-    validateForm()
+    if (!validateForm()) return
 
     const fileData = new FormData()
     fileData.append('file', selectedFile)
@@ -244,13 +232,12 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
 
           <div>上传封面</div>
 
-          <div >
+          <div>
 
             <input className={scss.upload} type="file" onChange={handleFileChange} />
 
             { fileSrc && <img className={scss.preview} src={fileSrc || ''} alt="cover" />}
 
-            {/* <div onClick={handleUpload}>上传</div> */}
           </div>
 
           <Button className={scss.save} variant="contained" onClick={create}>save</Button>
@@ -261,3 +248,6 @@ export const  MangaEditor = forwardRef((props: EditorProps, ref) => {
     </ThemeProvider>
   )
 })
+
+export const MangaEditor = memo(Index)
+ 

@@ -1,20 +1,27 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 
 import { useParams, useNavigate } from "react-router-dom"
+import {Add} from '@mui/icons-material'
 
 import { Chapter } from '../services/model'
 
 import {getChapters} from '../services/index'
+import { useAppStore } from '../store'
+import { isMobileDevice } from '../util/util'
+import { ChapterEditor , EditorRef} from '../features/chapterEditor'
+
 
 import scss  from './style/chapter.module.scss'
-import { useAppStore } from '../store'
 function Index () {
+    const editorRef = useRef<EditorRef>(null)
 
+    const {isManager} = useAppStore(state => state)
     const {id} = useParams()
-
     const navigate = useNavigate()
-
     const [chapters, setChapters] = useState<Chapter[]>([])
+
+    const isPc = !isMobileDevice()
+
 
     useEffect(() => {
         getDatas()
@@ -36,6 +43,10 @@ function Index () {
         navigate(`${chapter.no}?title=${chapter.name}&num=${chapter.totalpage}&baseurl=${strBeforeFilename}`)
     }
 
+    const addChapter = () => {
+        editorRef?.current?.open()
+    }
+
     return (
         <div className={scss.main}>
             {
@@ -46,6 +57,13 @@ function Index () {
                     </div>
                 ))
             }
+            {
+                isManager && isPc && <div  className={scss['add']} onClick={() => addChapter()}>
+                    <Add className={scss['add__icon']} fontSize='large'/>
+                </div>
+            }
+
+            <ChapterEditor ref={editorRef} enName={id}/>
         </div>
     )
 }

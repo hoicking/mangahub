@@ -1,40 +1,32 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 import {Add} from '@mui/icons-material'
 
 import Contact from '../features/contact'
-import { getMangas } from '../services'
 
-import { useLocalStorage } from '../hooks/useStorage'
+// import { useLocalStorage } from '../hooks/useStorage'
 
+import { useManga } from '../hooks/dataHook'
 import scss from  './style/home.module.scss'
-import * as model from '../services/model'
+
 import { useAppStore } from '../store'
 import { isMobileDevice } from '../util/util'
 import { EditorRef, MangaEditor } from '../features/mangaEditor'
 
-
-
-
 const Index: React.FC = () => {
     const editorRef = useRef<EditorRef>(null)
-
-
-    const [mangas, setMangas] =  useState<model.Manga[]>([])
-
-    // const [, setCache] = useLocalStorage('cacheDate', Date.now().toString())
+    const [mangas, getManga] =  useManga()
     const {isManager} = useAppStore(state => state)
+
+    const [count, setCount] = useState(0)
 
     const isPc = !isMobileDevice()
 
     const navigate = useNavigate()
-    useEffect(()  => {
-        initData()
-    }, [])
 
-    const initData = async () => {
-        const mangas: model.Manga[] = await getMangas()
-        setMangas(mangas)
+    const clickTitle = () => {
+        setCount(count + 1)
+        console.log(count)
     }
 
     const goChapters = (id: string) => {
@@ -48,7 +40,7 @@ const Index: React.FC = () => {
     return (
         <div className={scss.main}>
             <Contact />
-            <div className={scss.title}> Manga Hub</div>
+            <div className={scss.title} onClick={clickTitle}> Manga Hub</div>
 
             <div className={scss.mangas}>
                 {
@@ -66,7 +58,7 @@ const Index: React.FC = () => {
                     </div>
                 }
             </div>
-            <MangaEditor ref={editorRef} onSaved={() => initData()}/>
+            <MangaEditor ref={editorRef} onSaved={ getManga }/>
         </div>
     )
 }

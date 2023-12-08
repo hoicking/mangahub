@@ -1,23 +1,24 @@
 export interface Manga {
-  id?: string,
+  id: string,
   name: string,
   enname: string,
   describe: string,
   cover: string,
   author: string,
-  updatetime?: string
+  updatetime: string
 }
 
-export type Chapter = {
+export interface Chapter {
   id: string,
   name: string,
   no: string,
-  mangaid: string,
   mangaenname: string,
   postdate: string,
   cover: string,
   totalpage: number
 }
 
+export type IChapter = Omit<Chapter, 'id' | 'postdate' >
 
-export type IManga = Exclude<Manga, 'id'|'updatetime' >
+
+export type IManga = Omit<Manga, 'id'|'updatetime' >

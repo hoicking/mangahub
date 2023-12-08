@@ -86,3 +86,27 @@
 
 
 }
+
+.add {
+
+  width: 200px;
+  height: 300px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  border-radius: 8px;
+  border: 2px dashed $primary-color;
+
+
+  &__icon {
+    color: $primary-color;
+  }
+
+  &:hover  {
+    border: 1px solid $primary-color;
+  }
+
+}

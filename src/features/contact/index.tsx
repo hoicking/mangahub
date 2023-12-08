@@ -1,10 +1,11 @@
 
-
+import { memo } from 'react'
 import scss from './index.module.scss'
 
-const Index = () => {
+const Index = memo(() => {
 
     const playing = true
+
     return (
         <div className={scss.main}>
             <img className={`${scss.logo} ${playing? scss.playing: ''}`} src="/pokita.png" alt='avatar' title='Pochita' />
@@ -15,7 +16,7 @@ const Index = () => {
             </div>
         </div>
     )
-}
+})
 
 
 export default Index

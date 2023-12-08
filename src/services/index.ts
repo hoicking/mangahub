@@ -16,9 +16,22 @@ export const createManga = (body: model.IManga) => {
   return request.put('manga', body)
 }
 
+export const createChapter = (body: model.IChapter) => {
+  return request.put('chapter', body)
+}
+
 // 上传封面 
 export const uploadCover = (file: FormData) => {
   return request.post('upload/cover', file)
 
+}
+
+// 上传章节图片
+export const uploadChapter = (enName: string, no: string,files: FileList) => {
+  const formData = new FormData()
+  Array.from(files).forEach((file, index) => {
+    formData.append(`file${index}`, file)
+  })
+  return request.post(`upload/chapter/${enName}/${no}`, formData)
 }
 
