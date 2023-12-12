@@ -11,7 +11,7 @@ export const useAppStore = create<AppState>((set) => ({
   imageUrl: '',
   setImageUrl: (url: string) => set(() => ({ imageUrl: url })),
 
-  isManager: true
+  isManager: false
   // increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
   // removeAllBears: () => set({ bears: 0 }),
 }))

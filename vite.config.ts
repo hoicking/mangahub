@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 
-import buildTime from './testplugin'
+// import buildTime from './testplugin'
 
 
 // https://vitejs.dev/config/
@@ -22,7 +22,7 @@ export default defineConfig({
       },
     }
   },
-  plugins: [react(),  buildTime()],
+  plugins: [react()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src')
@@ -39,7 +39,7 @@ export default defineConfig({
     }
   },
   build: {
-    target: 'es5',
+    target: 'es2015',
     outDir: 'dist', //指定输出路径（相对于 项目根目录).
 
     assetsDir: 'assets', // 指定生成静态资源的存放路径（相对于 build.outDir）,

@@ -23,9 +23,10 @@ type Error = {
 
 interface Props {
   enName?: string
+  successCallback: () => void
 }
 
-const Index = memo(forwardRef(({enName}: Props, ref) => {
+const Index = memo(forwardRef(({enName, successCallback}: Props, ref) => {
 
   const [open, setOpen] = useState(false)
 
@@ -33,7 +34,7 @@ const Index = memo(forwardRef(({enName}: Props, ref) => {
 
   const [errors, setErrors]  = useState<Error>({} as Error)
 
-  const [selectedFiles, setSelectedFiles] = useState<FileList>([])
+  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null)
 
   useImperativeHandle(ref, () => ({
     open: () => {
@@ -85,23 +86,28 @@ const Index = memo(forwardRef(({enName}: Props, ref) => {
     if (files && files.length > 0) {
       setSelectedFiles(files)
     }
-    
-
   }
 
   const create = async() => {
-    if (selectedFiles.length === 0) {
+    if (!selectedFiles || selectedFiles.length === 0) {
       console.log('请上传')
       return
     }
 
     if (!validator()) return
 
-    formData.mangaenname = enName || ''
+    const obj = {...formData}
+
+    obj.mangaenname = enName || ''
 
     try {
-      await uploadChapter( formData.mangaenname,formData.no, selectedFiles)
-      // await createChapter(formData)
+      const pages: string[] = await uploadChapter( obj.mangaenname,obj.no, selectedFiles)
+      console.log(pages)
+      obj.cover = pages?.[0]
+      obj.totalpage = pages.length
+      await createChapter(obj)
+      setOpen(false)
+      successCallback()
     } catch (error) {
       console.log(error)
     }
@@ -147,6 +153,7 @@ const Index = memo(forwardRef(({enName}: Props, ref) => {
 
           <div >
             {/* <input className={scss.upload} type="file" mozdirectory onChange={handleFileChange} /> */}
+            {/* @ts-ignore */}
             <input  directory="" webkitdirectory=""  type="file" onChange={handleFileChange} /> 
 
           </div>

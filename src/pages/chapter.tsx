@@ -3,6 +3,8 @@ import {useEffect, useRef, useState} from 'react'
 import { useParams, useNavigate } from "react-router-dom"
 import {Add} from '@mui/icons-material'
 
+import Empty from '../features/empty'
+
 import { Chapter } from '../services/model'
 
 import {getChapters} from '../services/index'
@@ -40,7 +42,7 @@ function Index () {
     const goManga = (chapter: Chapter) => {
         const strBeforeFilename = chapter.cover.substring(0, chapter.cover.lastIndexOf('/'));
         // console.log(strBeforeFilename);  // https://holicking.oss-cn-hangzhou.aliyuncs.com/jujutsukaisen/chapters/241
-        navigate(`${chapter.no}?title=${chapter.name}&num=${chapter.totalpage}&baseurl=${strBeforeFilename}`)
+        navigate(`${chapter.no}?title=${chapter.name}&num=${chapter.totalpage}&baseurl=${encodeURIComponent(strBeforeFilename)}`)
     }
 
     const addChapter = () => {
@@ -49,11 +51,12 @@ function Index () {
 
     return (
         <div className={scss.main}>
+            { chapters.length  === 0 && <Empty /> }
             {
-                chapters.map((item) => (
+                chapters.length > 0 && chapters.map((item) => (
                     <div className={scss.cover} key={item.id} onClick={() => goManga(item)}>
                         <img className={scss['cover__img']} src={item.cover} />
-                        <div className={scss['cover__title']}>{item.name}</div>
+                        <div className={scss['cover__title']}>{item.no} {item.name}</div>
                     </div>
                 ))
             }
@@ -63,7 +66,7 @@ function Index () {
                 </div>
             }
 
-            <ChapterEditor ref={editorRef} enName={id}/>
+            <ChapterEditor ref={editorRef} enName={id} successCallback={() => getDatas()}/>
         </div>
     )
 }

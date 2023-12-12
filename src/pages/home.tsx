@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {useNavigate} from 'react-router-dom'
 import {Add} from '@mui/icons-material'
 
@@ -6,12 +6,14 @@ import Contact from '../features/contact'
 
 // import { useLocalStorage } from '../hooks/useStorage'
 
+import Errorbound from '../hoc/errorBound'
 import { useManga } from '../hooks/dataHook'
-import scss from  './style/home.module.scss'
 
 import { useAppStore } from '../store'
 import { isMobileDevice } from '../util/util'
 import { EditorRef, MangaEditor } from '../features/mangaEditor'
+
+import scss from  './style/home.module.scss'
 
 const Index: React.FC = () => {
     const editorRef = useRef<EditorRef>(null)
@@ -63,5 +65,6 @@ const Index: React.FC = () => {
     )
 }
 
+const ErrorBoundIndex = Errorbound(Index);
 
-export default Index
+export default ErrorBoundIndex

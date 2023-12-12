@@ -1,19 +1,19 @@
-import React from 'react'
+// import React from 'react'
 
-import timeHoc from '../util/hoc'
+// import timeHoc from '../util/hoc'
 
-interface Props {
-    name: string
+// interface Props {
+//     name: string
 
-}
-class ForTest extends React.Component {
-    constructor (props: Props) {
-        super(props)
-    }
+// }
+// class ForTest extends React.Component {
+//     constructor (props: Props) {
+//         super(props)
+//     }
 
-    render () {
-        return <div> hello world</div>
-    }
-}
+//     render () {
+//         return <div> hello world</div>
+//     }
+// }
 
-export default timeHoc(ForTest)
+// export default timeHoc(ForTest)
