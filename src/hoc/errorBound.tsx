@@ -13,6 +13,7 @@ const handleError = (WrappedComponent: React.FC | React.ComponentClass) => {
     }
 
     static getDerivedStateFromError(error: Error) {
+      console.log(error)
       return {hasError: true}
     }
 
