@@ -17,7 +17,7 @@ function Index () {
     <div className={scss.main}>
       {
         Array.from({length: pageNum}, (_, index) => (
-          <img key={index} src={`${baseUrl}/${index + 1}.jpeg`}/>
+          <img key={index} src={`${baseUrl}/${index + 1}.jpeg`} alt=''/>
         ))
       }
     </div>

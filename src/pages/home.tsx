@@ -48,7 +48,11 @@ const Index: React.FC = () => {
                 {
                     mangas.map((item) => (
                         <div key={item.id} className={scss.cover} onClick={() => goChapters(item.enname)}>
-                            <img className={scss['cover__img']} src={item.cover} />
+                            <img 
+                                className={scss['cover__img']}
+                                src={item.cover}
+                                alt={item.name}
+                            />
                             <div className={scss['cover__title']}>{item.name}</div>
                         </div>
                     ))

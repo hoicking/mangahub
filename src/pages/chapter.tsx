@@ -55,7 +55,7 @@ function Index () {
             {
                 chapters.length > 0 && chapters.map((item) => (
                     <div className={scss.cover} key={item.id} onClick={() => goManga(item)}>
-                        <img className={scss['cover__img']} src={item.cover} />
+                        <img className={scss['cover__img']} src={item.cover} alt={item.name}/>
                         <div className={scss['cover__title']}>{item.no} {item.name}</div>
                     </div>
                 ))
