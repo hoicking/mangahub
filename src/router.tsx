@@ -30,6 +30,13 @@ const Router = createBrowserRouter([
             <Manga/>
         </Suspense>
         )
+    }, {
+        path: '*',
+        element: (
+            <Suspense fallback={ <Loading />}>
+                <Home />
+            </Suspense>
+        )
     }
 ])
 

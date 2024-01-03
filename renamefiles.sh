@@ -1,6 +1,6 @@
 #!/bin/bash
 
-files=$(ls -tr | grep -E '^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}\.jpeg$')
+files=$(ls -tr | grep -E '.*\.jpg$')
 
 count=1
 
@@ -9,7 +9,7 @@ echo "$files" | while IFS= read -r file; do
   extension="${file##*.}"
 
   # 生成新的文件名
-  new_filename="${count}.${extension}"
+  new_filename="${file%%_*}.${extension}"
 
   echo "Renaming $file "
 

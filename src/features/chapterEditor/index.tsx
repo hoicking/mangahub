@@ -154,7 +154,7 @@ const Index = memo(forwardRef(({enName, successCallback}: Props, ref) => {
           <div >
             {/* <input className={scss.upload} type="file" mozdirectory onChange={handleFileChange} /> */}
             {/* @ts-ignore */}
-            <input  directory="" webkitdirectory=""  type="file" onChange={handleFileChange} /> 
+            <input  directory="" webkitdirectory=""  accept="image/*" type="file" onChange={handleFileChange} /> 
 
           </div>
 
