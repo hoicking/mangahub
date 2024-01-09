@@ -91,3 +91,8 @@ features:
 
 
   bgm
+
+
+todo: 
+  LCP 时间过长 (首页 done )  chapter  && manga
+  chapter 图片可以缩小

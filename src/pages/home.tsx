@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {useNavigate} from 'react-router-dom'
 import {Add} from '@mui/icons-material'
 
@@ -26,6 +26,46 @@ const Index: React.FC = () => {
 
     const navigate = useNavigate()
 
+    const observerRef = useRef<IntersectionObserver | null>(null)
+    const imageRefs = useRef<(HTMLImageElement | null)[]>([])
+    const mangasRef = useRef(null)
+
+
+    useEffect(() => {
+        const observerOptions  = {
+            root: mangasRef.current,// 观察器的根元素，默认为视口
+            rootMargin: '0px', // 根元素边距
+            threshold: 0.1 // 目标元素与根元素交叉的比例
+        }
+        const observer = new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+            entries.forEach((entry: IntersectionObserverEntry) => {
+                console.log(entry)
+                if (entry.isIntersecting) {
+                    const image = entry.target as HTMLImageElement
+                    image.src = image.dataset?.src || ''
+                    observer.unobserve(image)
+                  }
+
+            })
+
+        }, observerOptions)
+
+        observerRef.current = observer
+
+        return () => {
+            observer.disconnect()
+        }
+
+    }, [])
+
+    useEffect(() => {
+        if (observerRef.current) {
+            mangas.forEach(( _, index) => {
+                observerRef.current?.observe(imageRefs.current[index] as HTMLImageElement)
+            })
+        }
+      }, [mangas])
+
     const clickTitle = () => {
         setCount(count + 1)
         console.log(count)
@@ -44,13 +84,15 @@ const Index: React.FC = () => {
             <Contact />
             <div className={scss.title} onClick={clickTitle}> Manga Hub</div>
 
-            <div className={scss.mangas}>
+            <div className={scss.mangas} ref={mangasRef}>
                 {
-                    mangas.map((item) => (
+                    mangas.map((item, index) => (
                         <div key={item.id} className={scss.cover} onClick={() => goChapters(item.enname)}>
                             <img 
                                 className={scss['cover__img']}
-                                src={item.cover}
+                                ref={(ref) => (imageRefs.current[index] = ref)}
+                                key={item.id}
+                                data-src={item.cover}
                                 alt={item.name}
                             />
                             <div className={scss['cover__title']}>{item.name}</div>
